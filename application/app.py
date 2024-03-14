@@ -10,27 +10,22 @@ def init_metasploit():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-@app.route('/search')
-def search():
     client = init_metasploit()
     search_query = request.args.get('query', '')
-
-    # Use the client.modules.search function to search for modules
-    # This function returns modules matching the search query across all types
     results = client.modules.search(search_query)
+    total = len(results)
 
-    # Format results to make them easily consumable by the front-end
-    formatted_results = [{
-        'type': result['type'],
-        'name': result['name'],
-        'fullname': result['fullname'],
-        'rank': result['rank'],
-        'disclosuredate': result['disclosuredate']
-    } for result in results]
+    return render_template('index.html', rows=results, total=total)
 
-    return jsonify(formatted_results)
+# @app.route('/search', methods=['GET'])
+# def search():
+#     client = init_metasploit()
+#     search_query = request.args.get('query', '')
+#     results = client.modules.search(search_query)
+
+#     return render_template('index.html', rows=results)
+
+#     # return jsonify(formatted_results)
 
 @app.route('/module_details')
 def module_details():
@@ -40,4 +35,4 @@ def module_details():
     return jsonify({'description': exploit.description, 'options': exploit.options})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

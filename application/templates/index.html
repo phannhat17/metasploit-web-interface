@@ -1,117 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
     <title>Metasploit Module Panel</title>
-    <style>
-        /* Add styles for scrollable table */
-        .scrollable-table {
-            max-height: 300px;
-            overflow-y: auto;
-            display: block;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
 </head>
+
 <body>
-    <h2>Metasploit Module Panel</h2>
-    Select type: <select id="moduleType">
-        <option value="">All</option>
-        <option value="exploits">Exploits</option>
-        <option value="auxiliary">Auxiliary</option>
-        <option value="post">Post</option>
-        <option value="payloads">Payloads</option>
-        <option value="encoders">Encoders</option>
-        <option value="nops">Nops</option>
-    </select>
-    <br>
-    Search: <input type="text" id="searchQuery" placeholder="Type to search...">
-    <div class="scrollable-table">
-        <table id="moduleList">
-            <!-- Modules will be inserted here -->
-        </table>
-    </div>
-    <div id="moduleDetails">
-        <!-- Module details will be displayed here -->
+    <div class="antialiased bg-gray-50 dark:bg-gray-900">
+        <nav
+            class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="flex justify-start items-center">
+                    Demo Metasploit Web
+                </div>
+                <div class="flex items-center lg:order-2">
+                    <!-- Apps -->
+                    <button type="button" data-dropdown-toggle="apps-dropdown"
+                        class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        <span class="sr-only">View notifications</span>
+                        <!-- Icon -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="m-4 h-auto pt-20">
+            <div class="mb-4">
+                <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+                    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+                        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                            <div
+                                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                                <div class="w-full md:w-1/2">
+                                    <form class="flex items-center">
+                                        <label for="simple-search" class="sr-only">Search</label>
+                                        <div class="relative w-full">
+                                            <div
+                                                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                                    fill="currentColor" viewbox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            </div>
+                                            <input type="text" id="searchQuery"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                placeholder="Search" required="">
+                                        </div>
+                                    </form>
+                                </div>
+                                <p>Total modules: {{total}}</p>
+                            </div>
+                            <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="sortable px-4 py-3 cursor-pointer" data-sort="type">Type <span class="sort-icon">&#x2195;</span></th>
+                                            <th scope="col" class="sortable px-4 py-3 cursor-pointer" data-sort="name">Name <span class="sort-icon">&#x2195;</span></th>
+                                            <th scope="col" class="px-4 py-3 cursor-pointer">Full Name</th>
+                                            <th scope="col" class="sortable px-4 py-3 cursor-pointer" data-sort="rank">Rank <span class="sort-icon">&#x2195;</span></th>
+                                            <th scope="col" class="sortable px-4 py-3 cursor-pointer" data-sort="disclosuredate">Disclosure Date <span class="sort-icon">&#x2195;</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="moduleList">
+                                        {% for row in rows %}
+                                        <tr class="cursor-pointer hover:bg-gray-100" data-modal-target="static-modal" data-modal-toggle="static-modal" onclick="fetchModuleDetails('{{ row.fullname }}', '{{ row.name }}', '{{ row.rank }}', '{{ row.disclosuredate }}')">
+                                            <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-xs">{{ row.type }}</th>
+                                            <td class="px-4 py-3 max-w-xs">{{ row.name }}</td>
+                                            <td class="px-4 py-3 max-w-xs">{{ row.fullname }}</td>
+                                            <td class="px-4 py-3 max-w-xs">{{ row.rank }}</td>
+                                            <td class="px-4 py-3 max-w-xs">{{ row.disclosuredate }}</td>
+                                            </tr>
+    
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <!-- Modal header -->
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="modalName">
+                                  </h3>
+                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <div class="p-4 md:p-5 space-y-4 max-h-[600px] overflow-y-auto" id="modalContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </main>
     </div>
     <script>
-        function fetchModules() {
-    const moduleType = document.getElementById('moduleType').value;
-    const searchQuery = document.getElementById('searchQuery').value;
-    const url = `/search?query=${encodeURIComponent(searchQuery)}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const moduleList = document.getElementById('moduleList');
-            moduleList.innerHTML = '<tr><th>Type</th><th>Name</th><th>Full Name</th><th>Rank</th><th>Disclosure Date</th></tr>'; // Clear existing list and add header
-            data.forEach(module => {
-                const row = moduleList.insertRow(-1);
-                row.insertCell(0).textContent = module.type;
-                row.insertCell(1).textContent = module.name;
-                row.insertCell(2).textContent = module.fullname;
-                row.insertCell(3).textContent = module.rank;
-                row.insertCell(4).textContent = module.disclosuredate;
-
-                row.style.cursor = 'pointer';
-                row.onclick = () => fetchModuleDetails(module.fullname);
-            });
-        })
-        .catch(error => console.error('Error fetching modules:', error));
-}
-
-        function fetchModuleDetails(fullModuleName) {
-            // Splitting based on '/' to accommodate full module names like "android/local/binder_uaf"
-            let parts = fullModuleName.split('/');
-            let moduleType = parts[0]; // e.g., "exploits"
-            let moduleName = parts.slice(1).join('/'); // e.g., "android/local/binder_uaf"
+        document.addEventListener('DOMContentLoaded', () => {
+            const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+            const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+                v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+            )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
             
-            // Remove the trailing 's' from moduleType if present
-            moduleType = moduleType.endsWith('s') ? moduleType.slice(0, -1) : moduleType; // "exploit" instead of "exploits"
-
-            const url = `/module_details?module_type=${encodeURIComponent(moduleType)}&module_name=${encodeURIComponent(moduleName)}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const detailsElement = document.getElementById('moduleDetails');
-                    detailsElement.innerHTML = `<h3>Module Details: ${moduleName}</h3>`;
-                    detailsElement.innerHTML += `<p><strong>Description:</strong> ${data.description}</p>`;
-                    detailsElement.innerHTML += '<h4>Options:</h4>';
-                    const optionsList = document.createElement('ul');
-                    data.options.forEach(option => {
-                        const li = document.createElement('li');
-                        li.textContent = option; // Now just setting text as option name
-                        optionsList.appendChild(li);
-                    });
-                    detailsElement.appendChild(optionsList);
-                })
-                .catch(error => console.error('Error fetching module details:', error));
-        }
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('searchQuery').addEventListener('keyup', fetchModules);
-            document.getElementById('moduleType').addEventListener('change', fetchModules);
-            fetchModules(); // Perform an initial fetch to populate the list.
-        });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('searchQuery').addEventListener('keyup', fetchModules);
-            document.getElementById('moduleType').addEventListener('change', fetchModules);
-            fetchModules(); // Perform an initial fetch to populate the list.
+            // Do the work...
+            document.querySelectorAll('.sortable').forEach(th => th.addEventListener('click', (() => {
+                const table = th.closest('table');
+                const tbody = table.querySelector('tbody');
+                Array.from(tbody.querySelectorAll('tr'))
+                    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                    .forEach(tr => tbody.appendChild(tr) );
+            })));
         });
     </script>
+    
+    <script src="{{url_for('static',filename='js/main.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
-</html>
 
+</html>
