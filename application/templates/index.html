@@ -35,45 +35,36 @@
                 <section class="p-3 sm:p-5">
                     <div
                         class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between max-w-screen-xl mx-auto pb-4 ">
-                        <div>
+                        <div class="flex justify-start items-center space-x-4">
                             <form action="/" method="get">
                                 <select name="type" id="type" onchange="this.form.submit()"
                                     class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <option value=""
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="all" {{ 'selected' if filter_type=='all' else '' }}>
                                         All
                                     </option>
-                                    <option value="auxiliary"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="auxiliary" {{ 'selected' if filter_type=='auxiliary' else '' }}>
                                         Auxiliary
                                     </option>
-                                    <option value="encoder"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="encoder" {{ 'selected' if filter_type=='encoder' else '' }}>
                                         Encoder
                                     </option>
-                                    <option value="evasion"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="evasion" {{ 'selected' if filter_type=='evasion' else '' }}>
                                         Evasion
                                     </option>
-                                    <option value="exploit"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="exploit" {{ 'selected' if filter_type=='exploit' else '' }}>
                                         Exploit
                                     </option>
-                                    <option value="nop"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="nop" {{ 'selected' if filter_type=='nop' else '' }}>
                                         Nop
                                     </option>
-                                    <option value="payload"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="payload" {{ 'selected' if filter_type=='payload' else '' }}>
                                         Payloads
                                     </option>
-                                    <option value="post"
-                                        class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <option value="post" {{ 'selected' if filter_type=='post' else '' }}>
                                         Post
                                     </option>
                                 </select>
                             </form>
-
                         </div>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
@@ -95,7 +86,8 @@
                     </div>
                     <div
                         class="relative overflow-x-auto max-h-screen overflow-y-auto shadow-md max-w-screen-xl mx-auto mt-4 sm:rounded-lg">
-                        <table class="sortable w-full text-sm  text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <table
+                            class="sortable w-full text-sm  text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead
                                 class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -138,7 +130,7 @@
 
 
                 <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-2rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-2xl max-h-full">
                         <!-- Modal content -->
                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -166,7 +158,7 @@
             </div>
         </main>
     </div>
-    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <script src="{{url_for('static',filename='js/sorttable.js')}}"></script>
 
     <script src="{{url_for('static',filename='js/main.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

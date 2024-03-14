@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from pymetasploit3.msfrpc import MsfRpcClient
+from pymetasploit3.msfrpc import *
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def index():
 
     results = client.modules.search(search_query) 
     total = len(results) 
-    if filter_type:
+    if filter_type and filter_type != "all":
         results = [r for r in results if r['type'] == filter_type]
 
     limited_results = results[:500]
