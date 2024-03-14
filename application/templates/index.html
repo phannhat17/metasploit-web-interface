@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Metasploit Module Panel</title>
+    <style>
+        /* Add styles for scrollable table */
+        .scrollable-table {
+            max-height: 300px;
+            overflow-y: auto;
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h2>Metasploit Module Panel</h2>
+    Select type: <select id="moduleType">
+        <option value="">All</option>
+        <option value="exploits">Exploits</option>
+        <option value="auxiliary">Auxiliary</option>
+        <option value="post">Post</option>
+        <option value="payloads">Payloads</option>
+        <option value="encoders">Encoders</option>
+        <option value="nops">Nops</option>
+    </select>
+    <br>
+    Search: <input type="text" id="searchQuery" placeholder="Type to search...">
+    <div class="scrollable-table">
+        <table id="moduleList">
+            <!-- Modules will be inserted here -->
+        </table>
+    </div>
+    <div id="moduleDetails">
+        <!-- Module details will be displayed here -->
+    </div>
+    <script>
+        function fetchModules() {
+    const moduleType = document.getElementById('moduleType').value;
+    const searchQuery = document.getElementById('searchQuery').value;
+    const url = `/search?query=${encodeURIComponent(searchQuery)}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const moduleList = document.getElementById('moduleList');
+            moduleList.innerHTML = '<tr><th>Type</th><th>Name</th><th>Full Name</th><th>Rank</th><th>Disclosure Date</th></tr>'; // Clear existing list and add header
+            data.forEach(module => {
+                const row = moduleList.insertRow(-1);
+                row.insertCell(0).textContent = module.type;
+                row.insertCell(1).textContent = module.name;
+                row.insertCell(2).textContent = module.fullname;
+                row.insertCell(3).textContent = module.rank;
+                row.insertCell(4).textContent = module.disclosuredate;
+
+                row.style.cursor = 'pointer';
+                row.onclick = () => fetchModuleDetails(module.fullname);
+            });
+        })
+        .catch(error => console.error('Error fetching modules:', error));
+}
+
+        function fetchModuleDetails(fullModuleName) {
+            // Splitting based on '/' to accommodate full module names like "android/local/binder_uaf"
+            let parts = fullModuleName.split('/');
+            let moduleType = parts[0]; // e.g., "exploits"
+            let moduleName = parts.slice(1).join('/'); // e.g., "android/local/binder_uaf"
+            
+            // Remove the trailing 's' from moduleType if present
+            moduleType = moduleType.endsWith('s') ? moduleType.slice(0, -1) : moduleType; // "exploit" instead of "exploits"
+
+            const url = `/module_details?module_type=${encodeURIComponent(moduleType)}&module_name=${encodeURIComponent(moduleName)}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const detailsElement = document.getElementById('moduleDetails');
+                    detailsElement.innerHTML = `<h3>Module Details: ${moduleName}</h3>`;
+                    detailsElement.innerHTML += `<p><strong>Description:</strong> ${data.description}</p>`;
+                    detailsElement.innerHTML += '<h4>Options:</h4>';
+                    const optionsList = document.createElement('ul');
+                    data.options.forEach(option => {
+                        const li = document.createElement('li');
+                        li.textContent = option; // Now just setting text as option name
+                        optionsList.appendChild(li);
+                    });
+                    detailsElement.appendChild(optionsList);
+                })
+                .catch(error => console.error('Error fetching module details:', error));
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchQuery').addEventListener('keyup', fetchModules);
+            document.getElementById('moduleType').addEventListener('change', fetchModules);
+            fetchModules(); // Perform an initial fetch to populate the list.
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchQuery').addEventListener('keyup', fetchModules);
+            document.getElementById('moduleType').addEventListener('change', fetchModules);
+            fetchModules(); // Perform an initial fetch to populate the list.
+        });
+    </script>
+</body>
+</html>
+
