@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
     <title>Metasploit Module Panel</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static',filename='images/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static',filename='images/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static',filename='images/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{url_for('static',filename='images/favicon/site.webmanifest')}}">
 </head>
 
 <body>
@@ -16,7 +20,7 @@
                     Demo Metasploit Web
                 </div>
                 <div class="flex items-center lg:order-2">
-                    <button type="button" data-dropdown-toggle="apps-dropdown"
+                    <button type="button"
                         class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                         <span class="sr-only">View notifications</span>
                         <!-- Icon -->

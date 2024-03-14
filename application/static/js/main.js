@@ -31,8 +31,3 @@ function fetchModuleDetails(fullModuleName, moduleNameNotFull, rank, date) {
       })
       .catch(error => console.error('Error fetching module details:', error));
   }
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('searchQuery').addEventListener('keyup', fetchModules);
-    fetchModules();
-});
