@@ -12,10 +12,18 @@ def init_metasploit():
 def index():
     client = init_metasploit()
     search_query = request.args.get('query', '')
-    results = client.modules.search(search_query)
-    total = len(results)
+    
+    filter_type = request.args.get('type', None)  
 
-    return render_template('index.html', rows=results, total=total)
+    results = client.modules.search(search_query) 
+    total = len(results) 
+    if filter_type:
+        results = [r for r in results if r['type'] == filter_type]
+
+    limited_results = results[:500]
+
+    return render_template('index.html', rows=limited_results, total=total, filter_type=filter_type)
+
 
 # @app.route('/search', methods=['GET'])
 # def search():
