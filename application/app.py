@@ -12,17 +12,21 @@ def init_metasploit():
 def index():
     client = init_metasploit()
     search_query = request.args.get('query', '')
-    
     filter_type = request.args.get('type', None)  
 
-    results = client.modules.search(search_query) 
-    total = len(results) 
-    if filter_type and filter_type != "all":
-        results = [r for r in results if r['type'] == filter_type]
+    results = client.modules.search(search_query)
+    total = len(results)
 
-    limited_results = results[:500]
+    if not search_query and (filter_type is None or filter_type == "all"):
+        total = str(len(results)) + " but the table only display first 500 modules"
+        results = results[:500]
+    else:
+        if filter_type and filter_type != "all":
+            results = [r for r in results if r['type'] == filter_type]
+            total = len(results)
 
-    return render_template('index.html', rows=limited_results, total=total, filter_type=filter_type)
+    return render_template('index.html', rows=results, total=total, filter_type=filter_type)
+
 
 
 # @app.route('/search', methods=['GET'])
@@ -40,7 +44,7 @@ def module_details():
     client = init_metasploit()
     module_type, module_name = request.args.get('module_type'), request.args.get('module_name')
     exploit = client.modules.use(module_type, module_name)
-    return jsonify({'description': exploit.description, 'options': exploit.options})
+    return jsonify(exploit.info)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
