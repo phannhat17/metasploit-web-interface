@@ -8,24 +8,32 @@ msfpass = os.getenv('MSFPASS', 'yourpassword')
 
 client = MsfRpcClient(msfpass, port=55553, ssl=True)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    search_query = request.args.get('query', '')
-    filter_type = request.args.get('type', None)  
+    if request.method == 'POST':
+        name = request.form.get('name', '')
+        m_type = request.form.get('type', None) 
 
-    results = client.modules.search(search_query)
-    total = len(results)
+        search_parts = []
+        if name:
+            search_parts.append("name:" + name)
+        if m_type and m_type != 'all':
+            search_parts.append("type:" + m_type)
 
-    if not search_query and (filter_type is None or filter_type == "all"):
-        total = str(len(results)) + " modules but the table only display first 500"
-        results = results[:500]
-    elif filter_type and filter_type != "all":
-        results = [r for r in results if r['type'] == filter_type]
-        total = len(results)
+        search_query = ' '.join(search_parts)
+        if search_query == '':
+            results = []
+            return render_template('index.html', toast=True, rows=results, filter_type=m_type)
+        elif "type" not in search_query:
+            results = client.modules.search(search_query)
+            return render_template('index.html', toast2=True, rows=results, filter_type=m_type)
+        else:
+            results = client.modules.search(search_query)
+            return render_template('index.html', rows=results, filter_type=m_type)
 
-    return render_template('index.html', rows=results, total=total, filter_type=filter_type, search_query=search_query)
+    return render_template('index.html')
 
-@app.route('/adv-search', methods=['GET', 'POST'])
+@app.route('/adv_search', methods=['GET', 'POST'])
 def adv_search():
     if request.method == 'POST':
         name = request.form.get('name', None)
@@ -85,10 +93,13 @@ def adv_search():
         search_query = ' '.join(search_parts)
         if search_query == '':
             results = []
-            return render_template('adv_search.html', toast=True, rows=results)
+            return render_template('adv_search.html', toast=True, rows=results, filter_type=m_type)
+        elif "type" not in search_query:
+            results = client.modules.search(search_query)
+            return render_template('adv_search.html', toast2=True, rows=results, filter_type=m_type)
         else:
             results = client.modules.search(search_query)
-            return render_template('adv_search.html', rows=results)
+            return render_template('adv_search.html', rows=results, filter_type=m_type)
     else:
         return render_template('adv_search.html')
 

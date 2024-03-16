@@ -41,79 +41,51 @@
             <div class="mb-4">
                 <section class="p-3 sm:p-5">
                     <div
-                        class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between max-w-screen-xl mx-auto pb-4 ">
+                        class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between max-w-screen-xl mx-auto pb-4">
                         <div class="flex justify-start items-center space-x-4">
-                            <form action="/" method="get">
-                                <select name="type" id="type" onchange="this.form.submit()"
+                            <form action="/" method="post" class="flex items-center w-full justify-end">
+                                <!-- Module type selector -->
+                                <select name="type" id="type"
                                     class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <option value="all" {{ 'selected' if filter_type=='all' else '' }}>
-                                        All
-                                    </option>
+                                    <option value="all" {{ 'selected' if filter_type=='all' else '' }}>All</option>
                                     <option value="auxiliary" {{ 'selected' if filter_type=='auxiliary' else '' }}>
-                                        Auxiliary
+                                        Auxiliary</option>
+                                    <option value="encoder" {{ 'selected' if filter_type=='encoder' else '' }}>Encoder
                                     </option>
-                                    <option value="encoder" {{ 'selected' if filter_type=='encoder' else '' }}>
-                                        Encoder
+                                    <option value="evasion" {{ 'selected' if filter_type=='evasion' else '' }}>Evasion
                                     </option>
-                                    <option value="evasion" {{ 'selected' if filter_type=='evasion' else '' }}>
-                                        Evasion
+                                    <option value="exploit" {{ 'selected' if filter_type=='exploit' else '' }}>Exploit
                                     </option>
-                                    <option value="exploit" {{ 'selected' if filter_type=='exploit' else '' }}>
-                                        Exploit
+                                    <option value="nop" {{ 'selected' if filter_type=='nop' else '' }}>Nop</option>
+                                    <option value="payload" {{ 'selected' if filter_type=='payload' else '' }}>Payloads
                                     </option>
-                                    <option value="nop" {{ 'selected' if filter_type=='nop' else '' }}>
-                                        Nop
-                                    </option>
-                                    <option value="payload" {{ 'selected' if filter_type=='payload' else '' }}>
-                                        Payloads
-                                    </option>
-                                    <option value="post" {{ 'selected' if filter_type=='post' else '' }}>
-                                        Post
-                                    </option>
+                                    <option value="post" {{ 'selected' if filter_type=='post' else '' }}>Post</option>
                                 </select>
-                            </form>
-                            {% if adv_search %}
-                            {% if filter_type %}
-                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{
-                                filter_type[:1].upper() + filter_type[1:] }} : {{ total }} modules</div>
-                            {% endif %}
-                            {% if search_query %}
-                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> Search result for
-                                <span class="text-blue-600 dark:text-blue-500">{{search_query}}</span> in all type : {{
-                                total }} modules
-                            </div>
-                            {% endif %}
-                            {% if not filter_type and not search_query%}
-                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> All: {{ total }}
-                                modules</div>
-                            {% endif %}
-                            {% else %}
 
-                            {% endif %}
-                        </div>
-                        <label for="table-search" class="sr-only">Search</label>
-                        <div class="relative flex items-center">
-                            <div
-                                class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <form id="autoSubmitForm" action="/" method="get" class="flex-grow">
-                                <input type="text" id="query" name="query"
-                                    class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Search for modules">
-                            </form>
-                            <a href="/adv-search">
-                                <button type="button"
-                                    class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Advanced Search
-                                </button></a>
-                        </div>
+                                <!-- Search input field -->
+                                <div class="relative ml-2">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="name" name="name"
+                                        class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Search for modules">
+                                </div>
 
+                                <!-- Advanced Search Link -->
+                                <a href="/adv_search" class="ml-2">
+                                    <button type="button"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Advanced Search
+                                    </button>
+                                </a>
+                            </form>
+                        </div>
                     </div>
                     <div
                         class="relative overflow-x-auto max-h-[600px] overflow-y-auto shadow-md max-w-screen-xl mx-auto mt-4 sm:rounded-lg">
@@ -140,6 +112,7 @@
                                 </tr>
                             </thead>
                             <tbody id="moduleList">
+                                {% if rows %}
                                 {% for row in rows %}
                                 <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                     data-modal-target="static-modal" data-modal-toggle="static-modal"
@@ -152,13 +125,71 @@
                                     <td class="px-6 py-4">{{ row.rank }}</td>
                                     <td class="px-6 py-4">{{ row.disclosuredate }}</td>
                                 </tr>
-
                                 {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                        No results found.
+                                    </td>
+                                </tr>
+                                {% endif %}
+
                             </tbody>
                         </table>
                     </div>
                 </section>
-
+                {% if toast %}
+                <div id="toast-warning"
+                    class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-red-800 bg-red-50 rounded-lg shadow right-5 bottom-5 dark:bg-gray-800 dark:text-red-400 space-x"
+                    role="alert">
+                    <div
+                        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
+                        </svg>
+                        <span class="sr-only">Warning icon</span>
+                    </div>
+                    <div class="ms-3 text-sm font-medium">Please fill out at least 1 field</div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 text-red-800 bg-red-50 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:text-white dark:hover:bg-gray-700"
+                        data-dismiss-target="#toast-warning" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                {% endif %}
+                {% if toast2 %}
+                <div id="toast-warning"
+                    class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-yellow-800 bg-yellow-50 rounded-lg shadow right-5 bottom-5 dark:bg-gray-800 dark:text-yellow-300 space-x"
+                    role="alert">
+                    <div
+                        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
+                        </svg>
+                        <span class="sr-only">Warning icon</span>
+                    </div>
+                    <div class="text-sm font-medium">You should specify the type because a complete search may yield too many results</div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 text-yellow-800 bg-yellow-50 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-gray-700"
+                        data-dismiss-target="#toast-warning" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                {% endif %}
                 <div id="static-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-2rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-2xl max-h-full">
