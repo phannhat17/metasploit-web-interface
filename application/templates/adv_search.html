@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <title>Metasploit Module Panel</title>
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="{{url_for('static',filename='images/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{url_for('static',filename='images/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{url_for('static',filename='images/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{url_for('static',filename='images/favicon/site.webmanifest')}}">
+</head>
+
+<body>
+    <div class="antialiased bg-white dark:bg-gray-900">
+        <nav
+            class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-30">
+            <div class="flex flex-wrap justify-between items-center">
+                <div class="flex justify-start items-center">
+                    <a href="/">Demo Metasploit Web</a>
+                </div>
+                <div class="flex items-center lg:order-2">
+                    <button type="button"
+                        class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                        <span class="sr-only">View notifications</span>
+                        <!-- Icon -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="m-4 h-auto pt-20">
+            <div class="mb-4">
+                <section class="p-3 sm:p-5">
+                    <div class="space-y-4 sm:space-y-0 items-center justify-between max-w-screen-xl mx-auto pb-4 ">
+                        <form action="/adv-search" method="post">
+                            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                <div>
+                                    <label for="name"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                    <input type="text" id="name" name="name"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching descriptive name" />
+                                </div>
+                                <div>
+                                    <label for="fullname"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
+                                    <input type="text" id="fullname" name="fullname"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching full name" />
+                                </div>
+                                <div>
+                                    <label for="aka"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">AKA
+                                        name</label>
+                                    <input type="text" id="aka" name="aka"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching AKA (also-known-as) name" />
+                                </div>
+                                <div>
+                                    <label for="date"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Disclosure
+                                        date</label>
+                                    <input type="text" id="date" name="date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching disclosure date" />
+                                </div>
+                                <div>
+                                    <label for="target"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Target</label>
+                                    <input type="text" id="target" name="target"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules affecting this target" />
+                                </div>
+                                <div>
+                                    <label for="author"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Author</label>
+                                    <input type="text" id="author" name="author"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules written by this author" />
+                                </div>
+                                <div>
+                                    <label for="type"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                                    <select name="type" id="type"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="all" {{ 'selected' if filter_type=='all' else '' }}>
+                                            All
+                                        </option>
+                                        <option value="auxiliary" {{ 'selected' if filter_type=='auxiliary' else '' }}>
+                                            Auxiliary
+                                        </option>
+                                        <option value="encoder" {{ 'selected' if filter_type=='encoder' else '' }}>
+                                            Encoder
+                                        </option>
+                                        <option value="evasion" {{ 'selected' if filter_type=='evasion' else '' }}>
+                                            Evasion
+                                        </option>
+                                        <option value="exploit" {{ 'selected' if filter_type=='exploit' else '' }}>
+                                            Exploit
+                                        </option>
+                                        <option value="nop" {{ 'selected' if filter_type=='nop' else '' }}>
+                                            Nop
+                                        </option>
+                                        <option value="payload" {{ 'selected' if filter_type=='payload' else '' }}>
+                                            Payloads
+                                        </option>
+                                        <option value="post" {{ 'selected' if filter_type=='post' else '' }}>
+                                            Post
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="check"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Check
+                                        (Modules that support the 'check' method)</label>
+                                    <select name="check" id="check"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="None">
+                                            None
+                                        </option>
+                                        <option value="true">
+                                            True
+                                        </option>
+                                        <option value="false">
+                                            False
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="platform"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Platform</label>
+                                    <input type="text" id="platform" name="platform"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules affecting this platform" />
+                                </div>
+                                <div>
+                                    <label for="arch"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Architecture</label>
+                                    <input type="text" id="arch" name="arch"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules affecting this architecture" />
+                                </div>
+                                <div>
+                                    <label for="path"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Path</label>
+                                    <input type="text" id="path" name="path"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching path" />
+                                </div>
+                                <div>
+                                    <label for="port"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Port</label>
+                                    <input type="text" id="port" name="port"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching port" />
+                                </div>
+                                <div>
+                                    <label for="edb"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Exploit-DB
+                                        ID</label>
+                                    <input type="text" id="edb" name="edb"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching Exploit-DB ID" />
+                                </div>
+                                <div>
+                                    <label for="bid"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bugtraq
+                                        ID</label>
+                                    <input type="text" id="bid" name="bid"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching Bugtraq ID" />
+                                </div>
+                                <div>
+                                    <label for="cve"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CVE</label>
+                                    <input type="text" id="cve" name="cve"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching CVE ID" />
+                                </div>
+                                <div>
+                                    <label for="reference"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference</label>
+                                    <input type="text" id="reference" name="reference"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Modules with a matching reference" />
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="raank"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rank</label>
+                                <input type="text" id="rank" name="rank"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Modules with a matching rank (Can be descriptive (ex: 'good') or numeric with comparison operators (ex: 'gte400'))" />
+                            </div>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                            <a href="/"
+                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Back
+                                to normal search</a>
+                        </form>
+                    </div>
+                    <div
+                        class="relative overflow-x-auto max-h-[600px] overflow-y-auto shadow-md max-w-screen-xl mx-auto mt-4 sm:rounded-lg">
+                        <table
+                            class="sortable w-full text-sm  text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Type
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Full name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Rank
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        DISCLOSURE DATE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="moduleList">
+                                {% if rows %}
+                                {% for row in rows %}
+                                <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    data-modal-target="static-modal" data-modal-toggle="static-modal"
+                                    onclick="fetchModuleDetails('{{ row.fullname }}', '{{ row.name }}', '{{ row.rank }}', '{{ row.disclosuredate }}')">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ row.type }}</th>
+                                    <td class="px-6 py-4">{{ row.name }}</td>
+                                    <td class="px-6 py-4">{{ row.fullname }}</td>
+                                    <td class="px-6 py-4">{{ row.rank }}</td>
+                                    <td class="px-6 py-4">{{ row.disclosuredate }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                        No results found.
+                                    </td>
+                                </tr>
+                                {% endif %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            {% if toast %}
+            <div id="toast-warning"
+                class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-red-800 bg-red-50 rounded-lg shadow right-5 bottom-5 dark:bg-gray-800 dark:text-red-400 space-x"
+                role="alert">
+                <div
+                    class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
+                    </svg>
+                    <span class="sr-only">Warning icon</span>
+                </div>
+                <div class="ms-3 text-sm font-medium">Please fill out at least 1 field</div>
+                <button type="button"
+                    class="ms-auto -mx-1.5 -my-1.5 text-red-800 bg-red-50 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:text-white dark:hover:bg-gray-700"
+                    data-dismiss-target="#toast-warning" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+    <script src="{{url_for('static',filename='js/sorttable.js')}}"></script>
+    <script src="{{url_for('static',filename='js/main.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+
+</html>

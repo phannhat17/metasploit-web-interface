@@ -72,11 +72,23 @@
                                     </option>
                                 </select>
                             </form>
+                            {% if adv_search %}
                             {% if filter_type %}
                             <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{
                                 filter_type[:1].upper() + filter_type[1:] }} : {{ total }} modules</div>
+                            {% endif %}
+                            {% if search_query %}
+                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> Search result for
+                                <span class="text-blue-600 dark:text-blue-500">{{search_query}}</span> in all type : {{
+                                total }} modules
+                            </div>
+                            {% endif %}
+                            {% if not filter_type and not search_query%}
+                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> All: {{ total }}
+                                modules</div>
+                            {% endif %}
                             {% else %}
-                            <div class="font-medium text-gray-900 whitespace-nowrap dark:text-white"> All : {{ total }}</div>
+
                             {% endif %}
                         </div>
                         <label for="table-search" class="sr-only">Search</label>
@@ -95,10 +107,11 @@
                                     class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Search for modules">
                             </form>
-                            <button type="button"
-                                class="ml-2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                                Advanced Search
-                            </button>
+                            <a href="/adv-search">
+                                <button type="button"
+                                    class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Advanced Search
+                                </button></a>
                         </div>
 
                     </div>
@@ -199,7 +212,6 @@
         </main>
     </div>
     <script src="{{url_for('static',filename='js/sorttable.js')}}"></script>
-
     <script src="{{url_for('static',filename='js/main.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
