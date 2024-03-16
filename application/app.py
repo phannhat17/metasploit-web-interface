@@ -3,14 +3,10 @@ from pymetasploit3.msfrpc import *
 
 app = Flask(__name__)
 
-# Initialize Metasploit connection
-def init_metasploit():
-    client = MsfRpcClient('yourpassword', port=55553, ssl=True)
-    return client
+client = MsfRpcClient('yourpassword', port=55553, ssl=True)
 
 @app.route('/')
 def index():
-    client = init_metasploit()
     search_query = request.args.get('query', '')
     filter_type = request.args.get('type', None)  
 
@@ -18,7 +14,7 @@ def index():
     total = len(results)
 
     if not search_query and (filter_type is None or filter_type == "all"):
-        total = str(len(results)) + " but the table only display first 500 modules"
+        total = str(len(results)) + " modules but the table only display first 500 modules"
         results = results[:500]
     else:
         if filter_type and filter_type != "all":
@@ -26,8 +22,6 @@ def index():
             total = len(results)
 
     return render_template('index.html', rows=results, total=total, filter_type=filter_type)
-
-
 
 # @app.route('/search', methods=['GET'])
 # def search():
@@ -41,7 +35,6 @@ def index():
 
 @app.route('/module_details')
 def module_details():
-    client = init_metasploit()
     module_type, module_name = request.args.get('module_type'), request.args.get('module_name')
     exploit = client.modules.use(module_type, module_name)
     return jsonify(exploit.info)
