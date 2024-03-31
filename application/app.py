@@ -1,12 +1,53 @@
 from flask import Flask, render_template, request, jsonify
 from pymetasploit3.msfrpc import *
 import os
+from threading import Thread
+from queue import Queue
+import time
+import itertools
 
 app = Flask(__name__)
 
 msfpass = os.getenv('MSFPASS', 'yourpassword')  
 
 client = MsfRpcClient(msfpass, port=55553, ssl=True)
+
+
+def perform_scan(target_ip, scan_type, output):
+    console = client.consoles.console()
+    console.write('workspace')
+    time.sleep(1)  # Give it some time to respond
+    db_status = console.read()['data']
+
+    # Perform the nmap scan and wait for it to complete
+    console.write(f'db_nmap {scan_type} {target_ip}')
+    loading = itertools.cycle(['-', '\\', '|', '/'])  # Loading animation sequence
+    data = ''
+    timer = 0
+    print("Monitoring scan progress...", end="")
+    while data == '' or console.is_busy():
+        time.sleep(1)  # Interval to wait before checking console output
+        new_data = console.read()['data']
+        if new_data:
+            data += new_data
+            # Instead of printing each new data, you might just want to print it if it's meaningful, or log it to a file.
+        else:
+            print(f"\rMonitoring scan progress... {next(loading)}", end="", flush=True)  # Update the animation
+        timer += 1
+        if timer > 300:  # Timeout to prevent infinite loop
+            print("\nScan timed out")
+            break
+    print("\nScan completed.")
+
+    # Fetch and print vulnerabilities found after scan
+    console.write('vulns')
+    time.sleep(2)  # Wait for the command to complete
+    vulns_data = console.read()['data']
+    if not vulns_data:
+        vulns_data = "No vulnerabilities found."
+
+    console.destroy()
+    output.put(vulns_data)  # Only return the vulnerabilities data
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -109,6 +150,32 @@ def module_details():
     module_type, module_name = request.args.get('module_type'), request.args.get('module_name')
     exploit = client.modules.use(module_type, module_name)
     return jsonify(exploit.info)
+    
+@app.route('/scan', methods=['GET', 'POST'])
+def scan():
+    if request.method == 'POST':
+        target_ip = request.form.get('target_ip', '')
+        scan_type = request.form.get('scan_type', '-sV')
+
+        if target_ip:
+            # Create a queue to hold the scan results
+            output = Queue()
+
+            # Start the scan in a background thread
+            thread = Thread(target=perform_scan, args=(target_ip, scan_type, output))
+            thread.start()
+
+            # Wait for the thread to complete and get results
+            thread.join()
+            scan_results = output.get()
+
+            # Render the scan results in the template
+            return render_template('scan_results.html', scan_results=scan_results)
+        else:
+            return render_template('scan.html', error="Please specify a target IP")
+
+    return render_template('scan.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
