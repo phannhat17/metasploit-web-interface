@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo systemctl start postgresql
 sudo msfdb init
 
 echo -e "\e[35m[*] Switching to venv\e[0m"

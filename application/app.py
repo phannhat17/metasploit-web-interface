@@ -46,6 +46,8 @@ def perform_scan(target_ip, scan_type, output):
     if not vulns_data:
         vulns_data = "No vulnerabilities found."
 
+    print(vulns_data)
+
     console.destroy()
     output.put(vulns_data)  # Only return the vulnerabilities data
 

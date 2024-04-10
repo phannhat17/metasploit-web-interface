@@ -3,7 +3,7 @@ import time
 import itertools
 
 # Initialize the MSF RPC Client with your password
-password = 'WVDukaKdCW8veqQfavB1'  # Replace 'yourpassword' with the actual MSFRPC password
+password = '7McyAyvVNSQWM9DI1GWf'  # Replace 'yourpassword' with the actual MSFRPC password
 client = MsfRpcClient(password, port=55553, ssl=True)
 
 # Check database status
