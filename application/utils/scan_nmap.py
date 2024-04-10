@@ -28,7 +28,7 @@ def run_nmap_scan(target_ip):
     filename = f"{directory}/{timestamp}_res_{target_ip.replace('.', '_')}.txt"
     command = f"nmap -sV --script vulners.nse {target_ip}"
 
-    # Create a threading event to signal when the nmap scan is done
+    # Create a threading event to signawhen the nmap scan is done
     global nmap_done
     nmap_done = threading.Event()
 
