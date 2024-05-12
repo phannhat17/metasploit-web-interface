@@ -156,31 +156,6 @@ app.register_blueprint(scan, url_prefix='/scan')
 #     module_type, module_name = request.args.get('module_type'), request.args.get('module_name')
 #     exploit = client.modules.use(module_type, module_name)
 #     return jsonify(exploit.info)
-    
-# @app.route('/scan', methods=['GET', 'POST'])
-# def scan():
-#     if request.method == 'POST':
-#         target_ip = request.form.get('target_ip', '')
-#         scan_type = request.form.get('scan_type', '-sV')
-
-#         if target_ip:
-#             # Create a queue to hold the scan results
-#             output = Queue()
-
-#             # Start the scan in a background thread
-#             thread = Thread(target=perform_scan, args=(target_ip, scan_type, output))
-#             thread.start()
-
-#             # Wait for the thread to complete and get results
-#             thread.join()
-#             scan_results = output.get()
-
-#             # Render the scan results in the template
-#             return render_template('scan_results.html', scan_results=scan_results)
-#         else:
-#             return render_template('scan.html', error="Please specify a target IP")
-
-#     return render_template('scan.html')
 
 
 if __name__ == '__main__':

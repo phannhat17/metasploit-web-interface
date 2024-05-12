@@ -33,7 +33,7 @@ def start_scan():
         json_output_filename = convert_xml_to_json(xml_output_path)
 
         if json_output_filename:
-            return jsonify({"message": f"Scan and conversion successful, results saved in {json_output_filename}"})
+            return jsonify({"message": f"Scan and conversion successful!"})
         else:
             return jsonify({"error": "Failed to convert scan result to JSON"}), 500
 
