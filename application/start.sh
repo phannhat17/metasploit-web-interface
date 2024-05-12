@@ -5,6 +5,8 @@ sudo msfdb init
 echo -e "\e[35m[*] Switching to venv\e[0m"
 source .venv/bin/activate
 
+export PYTHONDONTWRITEBYTECODE=1 
+
 # Check if msfRPC server is already running
 echo -e "\e[31m[*] Checking if msfRPC server is running..."
 if nc -z localhost 55553; then
