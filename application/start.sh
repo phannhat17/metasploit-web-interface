@@ -38,4 +38,4 @@ echo -e "\e[34m[i] msfRPC server is up and running."
 
 # Starting Flask app
 echo -e "\e[36m[*] Starting Flask app\e[0m"
-python app.py &
+python3 app.py
