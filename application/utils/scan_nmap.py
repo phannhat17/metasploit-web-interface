@@ -26,7 +26,7 @@ def run_nmap_scan(target_ip):
 
     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     filename = f"{directory}/{timestamp}_res_{target_ip.replace('.', '_')}.txt"
-    command = f"nmap -sV --script vulners.nse {target_ip}"
+    command = f"nmap -sV --script vulners.nse {target_ip} -oJ a.json"
 
     # Create a threading event to signawhen the nmap scan is done
     global nmap_done
@@ -48,5 +48,5 @@ def run_nmap_scan(target_ip):
     
     print(f"Scan results saved to {filename}")
 
-target_ip = "192.168.204.138"  
+target_ip = "192.168.204.131"  
 run_nmap_scan(target_ip)
