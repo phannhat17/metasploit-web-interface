@@ -6,9 +6,11 @@ from queue import Queue
 import time
 import itertools
 from routes.scan_result import scanres
+from routes.scan import scan
 
 app = Flask(__name__)
-app.register_blueprint(scanres, url_prefix='/scanres')
+app.register_blueprint(scanres, url_prefix='/scan-results')
+app.register_blueprint(scan, url_prefix='/scan')
 
 # msfpass = os.getenv('MSFPASS', 'yourpassword')  
 

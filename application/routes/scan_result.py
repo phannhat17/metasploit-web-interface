@@ -29,7 +29,7 @@ def load_json_file(timestamp, ip):
         print(f"File not found: {json_file_path}", flush=True)
         return None
  
-@scanres.route('/scan-result', methods=['GET'])
+@scanres.route('/', methods=['GET'])
 def scan_res():
     """
     Return the entire JSON data for a given timestamp and IP address.
@@ -71,3 +71,40 @@ def scan_res():
     
     else:
         return jsonify({"error": "Invalid result type provided"}), 400
+
+@scanres.route('/all-record', methods=['GET'])
+def all_record():
+    """
+    Returns a list of all directories within the base folder or files of a specific IP if the 'ip' query parameter is provided.
+    """
+    target_ip = request.args.get('ip')  # Get the IP address from query parameter
+
+    try:
+        if target_ip:
+            # Path for the specific IP directory
+            ip_path = os.path.join(JSON_BASE_FOLDER, target_ip)
+            if os.path.exists(ip_path) and os.path.isdir(ip_path):
+                # List files in the directory for the specific IP
+                files = os.listdir(ip_path)
+                files_detail = [os.path.splitext(file)[0] for file in files if os.path.isfile(os.path.join(ip_path, file))]
+                return jsonify(files_detail)
+            else:
+                return jsonify({"error": f"No records found for IP: {target_ip}"}), 404
+        else:
+            # List all items in the base directory
+            items = os.listdir(JSON_BASE_FOLDER)
+            directories = []
+            for item in items:
+                item_path = os.path.join(JSON_BASE_FOLDER, item)
+                if os.path.isdir(item_path):
+                    # List the contents of the directory
+                    subitems = os.listdir(item_path)
+                    # Count how many of these are files
+                    file_count = sum(1 for subitem in subitems if os.path.isfile(os.path.join(item_path, subitem)))
+                    directories.append({"ip": item, "scans": file_count})
+            return jsonify(directories)
+    except Exception as e:
+        # Handle errors such as missing directory or permission issues
+        return jsonify({"error": str(e)}), 500
+
+    
