@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 import subprocess
 import os
 import datetime
@@ -10,34 +10,39 @@ scan = Blueprint('scan', __name__)
 JSON_BASE_FOLDER = 'scan_results/'
 
 
-@scan.route("/", methods=['POST'])
+@scan.route("/", methods=['POST', 'GET'])
 def start_scan():
-    # Get IP address from the form data
-    target_ip = request.form.get('ip')
-    if not target_ip:
-        return jsonify({"error": "No IP address provided"}), 400
+    if request.method == 'POST':
 
-    # Ensure the directory for this IP exists
-    directory_path = os.path.join(JSON_BASE_FOLDER, target_ip)
-    os.makedirs(directory_path, exist_ok=True)
-    current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        # Get IP address from the form data
+        target_ip = request.form.get('ip')
+        if not target_ip:
+            return jsonify({"error": "No IP address provided"}), 400
 
-    # Define the file path for the XML output with timestamp
-    xml_output_path = os.path.join(directory_path, f"{current_time}.xml")
+        # Ensure the directory for this IP exists
+        directory_path = os.path.join(JSON_BASE_FOLDER, target_ip)
+        os.makedirs(directory_path, exist_ok=True)
+        current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
-    command = f"nmap -sV --script vulners.nse {target_ip} -oX {xml_output_path}"
+        # Define the file path for the XML output with timestamp
+        xml_output_path = os.path.join(directory_path, f"{current_time}.xml")
 
-    try:
-        # Run the nmap command
-        subprocess.run(command, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        json_output_filename = convert_xml_to_json(xml_output_path)
+        command = f"nmap -sV --script vulners.nse {target_ip} -oX {xml_output_path}"
 
-        if json_output_filename:
-            return jsonify({"message": f"Scan and conversion successful!"})
-        else:
-            return jsonify({"error": "Failed to convert scan result to JSON"}), 500
+        try:
+            # Run the nmap command
+            subprocess.run(command, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            json_output_filename = convert_xml_to_json(xml_output_path)
 
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Failed to execute scan on {target_ip}. Error: {str(e)}"}), 500
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Failed to execute scan on {target_ip}. Error: {str(e)}"}), 500
+            if json_output_filename:
+                return render_template('scan.html', success="Scan and conversion successful!")
+                # return jsonify({"message": f"Scan and conversion successful!"})
+            else:
+                return render_template('scan.html', error="Failed to convert scan result to JSON!")
+                # return jsonify({"error": "Failed to convert scan result to JSON"}), 500
+
+        except subprocess.CalledProcessError as e:
+            return render_template('scan.html', error="Failed to execute scan!")
+            # return jsonify({"error": f"Failed to execute scan on {target_ip}. Error: {str(e)}"}), 500
+    else:
+        return render_template('scan.html')

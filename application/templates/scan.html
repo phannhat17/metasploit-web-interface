@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan IP</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Scan IP</h1>
+        <form method="post" class="mt-3">
+            <div class="form-group">
+                <label for="ip">IP Address:</label>
+                <input type="text" class="form-control" id="ip" name="ip" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Start Scan</button>
+        </form>
+        {% if error %}
+            <div class="alert alert-danger mt-2">{{result}}</div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success mt-2">{{success}}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
