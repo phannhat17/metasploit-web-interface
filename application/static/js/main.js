@@ -30,9 +30,13 @@ function fetchModuleDetails(fullModuleName) {
 
       for (const [key, value] of Object.entries(details)) {
         if (value) {
-          modalContentElement.innerHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+            if (key === 'Module') {
+                modalContentElement.innerHTML += `<p data-full-module-name="${value}"><strong>${key}:</strong> ${value}</p>`;
+            } else {
+                modalContentElement.innerHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
         }
-      }
+    }
 
       // Handle 'References' separately to account for possible URLs
       if (data.references && data.references.length > 0) {

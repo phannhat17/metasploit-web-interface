@@ -24,17 +24,18 @@
                 </div>
                 <div class="flex items-center lg:order-2">
                     <a href="/scan-results/all-record">
-                    <button type="button"
-                        class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                        <span class="sr-only">View notifications</span>
-                        <!-- Icon -->
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                            </path>
-                        </svg>
-                    </button>
-                </a>
+                        <button type="button"
+                            class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+                            <span class="sr-only">View notifications</span>
+                            <!-- Icon -->
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                </path>
+                            </svg>
+                        </button>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -170,8 +171,7 @@
                 <div id="toast-warning"
                     class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-yellow-800 bg-yellow-50 rounded-lg shadow right-5 bottom-5 dark:bg-gray-800 dark:text-yellow-300 space-x"
                     role="alert">
-                    <div
-                        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg">
+                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg">
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 20 20">
                             <path
@@ -179,7 +179,8 @@
                         </svg>
                         <span class="sr-only">Warning icon</span>
                     </div>
-                    <div class="text-sm font-medium">You should specify the type because a complete search may yield too many results</div>
+                    <div class="text-sm font-medium">You should specify the type because a complete search may yield too
+                        many results</div>
                     <button type="button"
                         class="ms-auto -mx-1.5 -my-1.5 text-yellow-800 bg-yellow-50 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-gray-700"
                         data-dismiss-target="#toast-warning" aria-label="Close">
@@ -231,7 +232,7 @@
                             </div>
                             <div
                                 class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                <button data-modal-hide="static-modal" type="button"
+                                <button id="useModuleBtn" type="button"
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Use
                                     module</button>
                                 <button data-modal-hide="static-modal" type="button"
@@ -244,6 +245,19 @@
             </div>
         </main>
     </div>
+    <script>
+        document.getElementById('useModuleBtn').addEventListener('click', function () {
+            let fullModuleNameElement = document.querySelector('[data-full-module-name]');
+            if (fullModuleNameElement) {
+                let fullModuleName = fullModuleNameElement.getAttribute('data-full-module-name');
+                let parts = fullModuleName.split('/');
+                let moduleType = parts[0];
+                let moduleName = parts.slice(1).join('/');
+                window.location.href = `/exploit/options?type=${moduleType}&name=${moduleName}`;
+            } else {
+                console.error('Element with data-full-module-name attribute not found');
+            }
+        });    </script>
     <script src="{{url_for('static',filename='js/sorttable.js')}}"></script>
     <script src="{{url_for('static',filename='js/main.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
