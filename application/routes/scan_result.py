@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 import json
 import os
+import datetime
 
 # Initialize the Blueprint
 scanres = Blueprint('scanres', __name__)
@@ -38,6 +39,7 @@ def scan_res():
     ip = request.args.get('ip')
     timestamp = request.args.get('timestamp')
     result_type = request.args.get('resulttype')
+    portid = request.args.get('portid')
 
     if not ip or not timestamp or not result_type:
         return jsonify({"error": "Missing required parameters (ip, timestamp, or resulttype)"}), 400
@@ -45,7 +47,12 @@ def scan_res():
     data = load_json_file(timestamp, ip)
     if not data:
         return jsonify({"error": f"Not found the scan result for {timestamp} at {ip}"}), 404
- 
+
+    if portid:
+        host_data = data.get('host', {})
+        ports = host_data.get('ports', {}).get('port', None)
+        
+
     if result_type == "all":
         return jsonify(data)
 
@@ -63,9 +70,12 @@ def scan_res():
     elif result_type == "port":
         host_data = data.get('host', {})
         ports = host_data.get('ports', {}).get('port', None)
+
+        scan_time = datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
         
         if ports:
-            return jsonify({"Port": ports})
+            # return jsonify({"Port": ports})
+            return render_template('scan_results.html', ports=ports, ip=ip, timestamp=timestamp, scan_time=scan_time)
         else:
             return jsonify({"error": "Port key not found under Host in the JSON data"}), 404
     
@@ -86,8 +96,14 @@ def all_record():
             if os.path.exists(ip_path) and os.path.isdir(ip_path):
                 # List files in the directory for the specific IP
                 files = os.listdir(ip_path)
-                files_detail = [os.path.splitext(file)[0] for file in files if os.path.isfile(os.path.join(ip_path, file))]
-                return jsonify(files_detail)
+                files_detail = [
+                    {
+                        "timestamp": file.split(".")[0],
+                        "formatted_time": datetime.datetime.strptime(file.split(".")[0], "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
+                    }
+                    for file in files if os.path.isfile(os.path.join(ip_path, file))
+                ]
+                return render_template('ip_records.html', ip=target_ip, records=files_detail)
             else:
                 return jsonify({"error": f"No records found for IP: {target_ip}"}), 404
         else:
@@ -102,9 +118,39 @@ def all_record():
                     # Count how many of these are files
                     file_count = sum(1 for subitem in subitems if os.path.isfile(os.path.join(item_path, subitem)))
                     directories.append({"ip": item, "scans": file_count})
-            return jsonify(directories)
+            return render_template('all_records.html', directories=directories)
     except Exception as e:
         # Handle errors such as missing directory or permission issues
         return jsonify({"error": str(e)}), 500
 
-    
+@scanres.route('/script-details', methods=['GET'])
+def get_script_details():
+    """
+    Return the script details for a specific port.
+    """
+    ip = request.args.get('ip')
+    timestamp = request.args.get('timestamp')
+    portid = request.args.get('portid')
+
+    if not ip or not timestamp or not portid:
+        return jsonify({"error": "Missing required parameters (ip, timestamp, or portid)"}), 400
+
+    data = load_json_file(timestamp, ip)
+    if not data:
+        return jsonify({"error": f"Not found the scan result for {timestamp} at {ip}"}), 404
+
+    host_data = data.get('host', {})
+    ports = host_data.get('ports', {}).get('port', [])
+
+    # Ensure ports is a list
+    if not isinstance(ports, list):
+        ports = [ports]
+
+    for port in ports:
+        if port.get('@portid') == portid and 'script' in port:
+            return jsonify(port['script'])
+
+    return jsonify({"error": "Script data not found for port"}), 404
+
+
+

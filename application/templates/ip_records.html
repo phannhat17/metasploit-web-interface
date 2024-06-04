@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records for IP: {{ ip }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Records for IP: {{ ip }}</h1>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr onclick="window.location.href='/scan-results/?ip={{ ip }}&timestamp={{ record.timestamp }}&resulttype=port'" style="cursor: pointer;">
+                    <td>{{ record.formatted_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

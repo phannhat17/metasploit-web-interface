@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        function loadScriptDetails(ip, timestamp, portid) {
+            fetch(`/scan-results/script-details?ip=${ip}&timestamp=${timestamp}&portid=${portid}`)
+                .then(response => response.json())
+                .then(data => {
+                    const scriptDetails = document.getElementById('scriptDetails');
+                    scriptDetails.innerHTML = '';
+
+                    if (data.error) {
+                        scriptDetails.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        let detailsHtml = `
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Details scan with ${data['@id']} for port ${portid}</h5>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>CVSS</th>
+                                                <th>Type</th>
+                                                <th>Is Exploit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+
+                        if (data.table) {
+                            const tables = data.table['table'];
+                            tables.forEach(table => {
+                                if (table.elem) {
+                                    const elements = Array.isArray(table.elem) ? table.elem : [table.elem];
+                                    let row = {};
+                                    elements.forEach(elem => {
+                                        row[elem['@key']] = elem['#text'];
+                                    });
+
+                                    const isExploit = row['is_exploit'] === 'true';
+                                    detailsHtml += `
+                                        <tr ${isExploit ? 'class="table-danger"' : ''}>
+                                            <td>${row['id']}</td>
+                                            <td>${row['cvss']}</td>
+                                            <td>${row['type']}</td>
+                                            <td>${row['is_exploit']}</td>
+                                        </tr>`;
+                                }
+                            });
+                        }
+
+                        detailsHtml += `
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>`;
+                        
+                        scriptDetails.innerHTML = detailsHtml;
+                    }
+                })
+                .catch(error => {
+                    const scriptDetails = document.getElementById('scriptDetails');
+                    scriptDetails.innerHTML = `<div class="alert alert-danger">Failed to load script details: ${error}</div>`;
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Scan Results for IP: {{ ip }} at {{ scan_time }}</h1>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Port ID</th>
+                    <th>Protocol</th>
+                    <th>Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if ports is mapping %}
+                <tr style="cursor: pointer;" onclick="loadScriptDetails('{{ ip }}', '{{ timestamp }}', '{{ ports['@portid'] }}')">
+                    <td>{{ ports['@portid'] }}</td>
+                    <td>{{ ports['@protocol'] }}</td>
+                    <td>
+                        {% if ports.get('service') %}
+                             {{ ports['service'].get('@product', 'N/A') }} {{ ports['service'].get('@version', '') }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                {% for port in ports %}
+                <tr style="cursor: pointer;" onclick="loadScriptDetails('{{ ip }}', '{{ timestamp }}', '{{ port['@portid'] }}')">
+                    <td>{{ port['@portid'] }}</td>
+                    <td>{{ port['@protocol'] }}</td>
+                    <td>
+                        {% if port.get('service') %}
+                             {{ port['service'].get('@product', 'N/A') }} {{ port['service'].get('@version', '') }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <div id="scriptDetails" class="mt-5">
+            <!-- Script details will be loaded here -->
+        </div>
+    </div>
+</body>
+</html>

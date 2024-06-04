@@ -1,12 +1,9 @@
 from flask import Blueprint, render_template, request, jsonify
-from pymetasploit3.msfrpc import MsfRpcClient
+from .msf_client import client
 import os
 
 # Initialize the Blueprint
 index_bp = Blueprint('index', __name__)
-
-msfpass = os.getenv('MSFPASS', 'yourpassword')  
-client = MsfRpcClient(msfpass, port=55553, ssl=True)
 
 @index_bp.route('/', methods=['GET', 'POST'])
 def index():
