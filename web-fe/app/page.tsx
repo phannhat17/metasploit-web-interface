@@ -57,6 +57,14 @@ const Index: React.FC = () => {
     return fullname;
   };
 
+  const handleUseModule = () => {
+    if (moduleDetails) {
+      const parts = moduleDetails.fullname.split('/');
+      const moduleType = parts[0];
+      const moduleName = parts.slice(1).join('/');
+      window.location.href = `/exploit/options?type=${moduleType}&name=${moduleName}`;
+    }
+  };
 
   const fetchModuleDetails = async (moduleType: string, moduleFullName: string) => {
     const strippedFullName = stripTypeFromFullName(moduleFullName, moduleType);
@@ -217,7 +225,7 @@ const Index: React.FC = () => {
             <div className="bg-gray-200 p-4 rounded-lg shadow-inner max-h-96 overflow-y-auto">
               {moduleDetails ? (
                 <>
-                  <p><strong>Module:</strong> {moduleDetails.fullname}</p>
+                  <p><strong>Module:</strong> {moduleDetails.name}</p>
                   <p><strong>Provided by:</strong> {moduleDetails.authors.join(', ')}</p>
                   <p><strong>Rank:</strong> {moduleDetails.rank}</p>
                   <p><strong>Disclosure:</strong> {moduleDetails.disclosuredate || 'No record'}</p>
@@ -240,6 +248,9 @@ const Index: React.FC = () => {
               ) : (
                 <p>No details available.</p>
               )}
+            </div>
+            <div className="mt-4">
+              <Button onClick={handleUseModule} className="w-full">Use Module</Button>
             </div>
           </DialogContent>
         </Dialog>
