@@ -5,30 +5,28 @@ import os
 # Initialize the Blueprint
 index_bp = Blueprint('index', __name__)
 
-@index_bp.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        name = request.form.get('name', '')
-        m_type = request.form.get('type', None) 
+@index_bp.route('/', methods=['POST'])
+def search():
+    data = request.get_json()
+    name = data.get('name', '')
+    m_type = data.get('type', None)
 
-        search_parts = []
-        if name:
-            search_parts.append("name:" + name)
-        if m_type and m_type != 'all':
-            search_parts.append("type:" + m_type)
+    search_parts = []
+    if name:
+        search_parts.append("name:" + name)
+    if m_type and m_type != 'all':
+        search_parts.append("type:" + m_type)
 
-        search_query = ' '.join(search_parts)
-        if search_query == '':
-            results = []
-            return render_template('index.html', toast=True, rows=results, filter_type=m_type)
-        elif "type" not in search_query:
-            results = client.modules.search(search_query)
-            return render_template('index.html', toast2=True, rows=results, filter_type=m_type)
-        else:
-            results = client.modules.search(search_query)
-            return render_template('index.html', rows=results, filter_type=m_type)
-
-    return render_template('index.html')
+    search_query = ' '.join(search_parts)
+    if search_query == '':
+        results = []
+        return jsonify({'toast': True, 'rows': results})
+    elif "type" not in search_query:
+        results = client.modules.search(search_query)
+        return jsonify({'toast2': True, 'rows': results})
+    else:
+        results = client.modules.search(search_query)
+        return jsonify({'rows': results})
 
 @index_bp.route('/adv_search', methods=['GET', 'POST'])
 def adv_search():
