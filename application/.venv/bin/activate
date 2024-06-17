@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/f1rst/Desktop/metasploit-web-interface/application/.venv"
+VIRTUAL_ENV="/home/f1rst/metasploit-web-interface/application/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

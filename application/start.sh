@@ -3,7 +3,9 @@
 sudo msfdb init
 
 echo -e "\e[35m[*] Switching to venv\e[0m"
+python3 -m venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt
 
 export PYTHONDONTWRITEBYTECODE=1 
 

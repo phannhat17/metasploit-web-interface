@@ -27,7 +27,7 @@ def start_scan():
         # Define the file path for the XML output with timestamp
         xml_output_path = os.path.join(directory_path, f"{current_time}.xml")
 
-        command = f"nmap -sV --script vulners.nse {target_ip} -oX {xml_output_path}"
+        command = f"nmap -sV -p- --script vulners.nse {target_ip} -oX {xml_output_path}"
 
         try:
             # Run the nmap command

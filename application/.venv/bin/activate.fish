@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/f1rst/Desktop/metasploit-web-interface/application/.venv"
+set -gx VIRTUAL_ENV "/home/f1rst/metasploit-web-interface/application/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

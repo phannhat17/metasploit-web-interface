@@ -6,7 +6,9 @@ from utils.load_json import load_json_file
 
 # Initialize the Blueprint
 scanres = Blueprint('scanres', __name__)
- 
+
+JSON_BASE_FOLDER = 'scan_results/'
+
 @scanres.route('/', methods=['GET'])
 def scan_res():
     """

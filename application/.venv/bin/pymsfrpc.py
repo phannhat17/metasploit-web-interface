@@ -1,4 +1,4 @@
-#!/home/f1rst/Desktop/metasploit-web-interface/application/.venv/bin/python3
+#!/home/f1rst/metasploit-web-interface/application/.venv/bin/python3
 
 from code import InteractiveConsole
 from atexit import register
