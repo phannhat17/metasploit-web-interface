@@ -1,0 +1,478 @@
+{
+    "nmaprun": {
+        "@args": "nmap -sV -p- --script vulners.nse -oX scan_results/10.6.54.131/20240617202427.xml 10.6.54.131",
+        "@scanner": "nmap",
+        "@start": "1718630667",
+        "@startstr": "Mon Jun 17 20:24:27 2024",
+        "@version": "7.94SVN",
+        "@xmloutputversion": "1.05",
+        "debugging": {
+            "@level": "0"
+        },
+        "host": {
+            "@endtime": "1718630693",
+            "@starttime": "1718630674",
+            "address": [
+                {
+                    "@addr": "10.6.54.131",
+                    "@addrtype": "ipv4"
+                },
+                {
+                    "@addr": "00:0C:29:F5:2F:AA",
+                    "@addrtype": "mac",
+                    "@vendor": "VMware"
+                }
+            ],
+            "hostnames": null,
+            "ports": {
+                "extraports": {
+                    "@count": "65532",
+                    "@state": "closed",
+                    "extrareasons": {
+                        "@count": "65532",
+                        "@ports": "1-21,23-5004,5006-8982,8984-65535",
+                        "@proto": "tcp",
+                        "@reason": "reset"
+                    }
+                },
+                "port": [
+                    {
+                        "@portid": "22",
+                        "@protocol": "tcp",
+                        "script": {
+                            "@id": "vulners",
+                            "@output": "\n  OpenSSH 8.9p1 Ubuntu 3: \n    \tB8190CDB-3EB9-5631-9828-8064A1575B23\t9.8\thttps://vulners.com/githubexploit/B8190CDB-3EB9-5631-9828-8064A1575B23\t*EXPLOIT*\n    \t8FC9C5AB-3968-5F3C-825E-E8DB5379A623\t9.8\thttps://vulners.com/githubexploit/8FC9C5AB-3968-5F3C-825E-E8DB5379A623\t*EXPLOIT*\n    \tF0979183-AE88-53B4-86CF-3AF0523F3807\t7.5\thttps://vulners.com/githubexploit/F0979183-AE88-53B4-86CF-3AF0523F3807\t*EXPLOIT*\n    \tCHAINGUARD:CVE-2023-38408\t7.5\thttps://vulners.com/cgr/CHAINGUARD:CVE-2023-38408\n    \tF3296B94-4C7D-509D-8AFE-7407270E5508\t6.5\thttps://vulners.com/githubexploit/F3296B94-4C7D-509D-8AFE-7407270E5508\t*EXPLOIT*\n    \t9EF4F8E5-EB9B-5BF5-9772-BD75D0FA7DB0\t6.5\thttps://vulners.com/githubexploit/9EF4F8E5-EB9B-5BF5-9772-BD75D0FA7DB0\t*EXPLOIT*\n    \t9C4B9838-9B34-5ECF-88C6-1F085707B73E\t6.5\thttps://vulners.com/githubexploit/9C4B9838-9B34-5ECF-88C6-1F085707B73E\t*EXPLOIT*\n    \t6E50384B-3A02-57D0-8CF7-C44201EC790F\t6.5\thttps://vulners.com/githubexploit/6E50384B-3A02-57D0-8CF7-C44201EC790F\t*EXPLOIT*\n    \t66723D3A-8399-57A7-B399-59101D2E2B00\t6.5\thttps://vulners.com/githubexploit/66723D3A-8399-57A7-B399-59101D2E2B00\t*EXPLOIT*\n    \t64CC39E9-21E0-57CB-B1DC-F9242D095352\t6.5\thttps://vulners.com/githubexploit/64CC39E9-21E0-57CB-B1DC-F9242D095352\t*EXPLOIT*\n    \t09DAE153-1015-5324-B27A-FE80D50E2F75\t6.5\thttps://vulners.com/githubexploit/09DAE153-1015-5324-B27A-FE80D50E2F75\t*EXPLOIT*\n    \tCHAINGUARD:CVE-2023-25136\t4.0\thttps://vulners.com/cgr/CHAINGUARD:CVE-2023-25136\n    \tCHAINGUARD:CVE-2023-51767\t3.5\thttps://vulners.com/cgr/CHAINGUARD:CVE-2023-51767\n    \tCHAINGUARD:GHSA-W62J-G234-3F6F\t0.0\thttps://vulners.com/cgr/CHAINGUARD:GHSA-W62J-G234-3F6F\n    \tCHAINGUARD:GHSA-PX36-P9HV-7H2V\t0.0\thttps://vulners.com/cgr/CHAINGUARD:GHSA-PX36-P9HV-7H2V\n    \tCHAINGUARD:GHSA-27Q9-H529-Q4G3\t0.0\thttps://vulners.com/cgr/CHAINGUARD:GHSA-27Q9-H529-Q4G3",
+                            "table": {
+                                "@key": "OpenSSH 8.9p1 Ubuntu 3",
+                                "table": [
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "9.8",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "B8190CDB-3EB9-5631-9828-8064A1575B23",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "9.8",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "8FC9C5AB-3968-5F3C-825E-E8DB5379A623",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "7.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "F0979183-AE88-53B4-86CF-3AF0523F3807",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "7.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:CVE-2023-38408",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "F3296B94-4C7D-509D-8AFE-7407270E5508",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "9EF4F8E5-EB9B-5BF5-9772-BD75D0FA7DB0",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "9C4B9838-9B34-5ECF-88C6-1F085707B73E",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "6E50384B-3A02-57D0-8CF7-C44201EC790F",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "66723D3A-8399-57A7-B399-59101D2E2B00",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "64CC39E9-21E0-57CB-B1DC-F9242D095352",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "true",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "6.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "githubexploit",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "09DAE153-1015-5324-B27A-FE80D50E2F75",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "4.0",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:CVE-2023-25136",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "3.5",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:CVE-2023-51767",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "0.0",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:GHSA-W62J-G234-3F6F",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "0.0",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:GHSA-PX36-P9HV-7H2V",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "elem": [
+                                            {
+                                                "#text": "false",
+                                                "@key": "is_exploit"
+                                            },
+                                            {
+                                                "#text": "0.0",
+                                                "@key": "cvss"
+                                            },
+                                            {
+                                                "#text": "cgr",
+                                                "@key": "type"
+                                            },
+                                            {
+                                                "#text": "CHAINGUARD:GHSA-27Q9-H529-Q4G3",
+                                                "@key": "id"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "service": {
+                            "@conf": "10",
+                            "@extrainfo": "Ubuntu Linux; protocol 2.0",
+                            "@method": "probed",
+                            "@name": "ssh",
+                            "@ostype": "Linux",
+                            "@product": "OpenSSH",
+                            "@version": "8.9p1 Ubuntu 3",
+                            "cpe": [
+                                "cpe:/a:openbsd:openssh:8.9p1",
+                                "cpe:/o:linux:linux_kernel"
+                            ]
+                        },
+                        "state": {
+                            "@reason": "syn-ack",
+                            "@reason_ttl": "64",
+                            "@state": "open"
+                        }
+                    },
+                    {
+                        "@portid": "5005",
+                        "@protocol": "tcp",
+                        "service": {
+                            "@conf": "10",
+                            "@method": "probed",
+                            "@name": "jdwp",
+                            "@product": "Java Debug Wire Protocol (Reference Implementation) version 1.8",
+                            "@version": "1.8.0_102"
+                        },
+                        "state": {
+                            "@reason": "syn-ack",
+                            "@reason_ttl": "63",
+                            "@state": "open"
+                        }
+                    },
+                    {
+                        "@portid": "8983",
+                        "@protocol": "tcp",
+                        "service": {
+                            "@conf": "10",
+                            "@method": "probed",
+                            "@name": "http",
+                            "@product": "Apache Solr",
+                            "cpe": "cpe:/a:apache:solr"
+                        },
+                        "state": {
+                            "@reason": "syn-ack",
+                            "@reason_ttl": "63",
+                            "@state": "open"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "@reason": "arp-response",
+                "@reason_ttl": "0",
+                "@state": "up"
+            },
+            "times": {
+                "@rttvar": "1297",
+                "@srtt": "1059",
+                "@to": "100000"
+            }
+        },
+        "hosthint": {
+            "address": [
+                {
+                    "@addr": "10.6.54.131",
+                    "@addrtype": "ipv4"
+                },
+                {
+                    "@addr": "00:0C:29:F5:2F:AA",
+                    "@addrtype": "mac",
+                    "@vendor": "VMware"
+                }
+            ],
+            "hostnames": null,
+            "status": {
+                "@reason": "arp-response",
+                "@reason_ttl": "0",
+                "@state": "up"
+            }
+        },
+        "runstats": {
+            "finished": {
+                "@elapsed": "26.20",
+                "@exit": "success",
+                "@summary": "Nmap done at Mon Jun 17 20:24:53 2024; 1 IP address (1 host up) scanned in 26.20 seconds",
+                "@time": "1718630693",
+                "@timestr": "Mon Jun 17 20:24:53 2024"
+            },
+            "hosts": {
+                "@down": "0",
+                "@total": "1",
+                "@up": "1"
+            }
+        },
+        "scaninfo": {
+            "@numservices": "65535",
+            "@protocol": "tcp",
+            "@services": "1-65535",
+            "@type": "syn"
+        },
+        "verbose": {
+            "@level": "0"
+        }
+    }
+}
