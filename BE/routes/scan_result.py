@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request
 import json
 import os
 import datetime
@@ -53,8 +53,7 @@ def scan_res():
         scan_time = datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
         
         if ports:
-            # return jsonify({"Port": ports})
-            return render_template('scan_results.html', ports=ports, ip=ip, timestamp=timestamp, scan_time=scan_time)
+            return jsonify({"ports": ports, "ip": ip, "timestamp": timestamp, "scan_time": scan_time})
         else:
             return jsonify({"error": "Port key not found under Host in the JSON data"}), 404
     
@@ -82,7 +81,7 @@ def all_record():
                     }
                     for file in files if os.path.isfile(os.path.join(ip_path, file))
                 ]
-                return render_template('ip_records.html', ip=target_ip, records=files_detail)
+                return jsonify({"ip": target_ip, "records": files_detail})
             else:
                 return jsonify({"error": f"No records found for IP: {target_ip}"}), 404
         else:
@@ -97,7 +96,7 @@ def all_record():
                     # Count how many of these are files
                     file_count = sum(1 for subitem in subitems if os.path.isfile(os.path.join(item_path, subitem)))
                     directories.append({"ip": item, "scans": file_count})
-            return render_template('all_records.html', directories=directories)
+            return jsonify({"directories": directories})
     except Exception as e:
         # Handle errors such as missing directory or permission issues
         return jsonify({"error": str(e)}), 500
@@ -130,6 +129,3 @@ def get_script_details():
             return jsonify(port['script'])
 
     return jsonify({"error": "Script data not found for port"}), 404
-
-
-
