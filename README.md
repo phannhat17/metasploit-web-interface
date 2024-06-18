@@ -1,8 +1,18 @@
 # metasploit-web-interface
 Web interface for using Metasploit Framework
 
-## Note
+## Installation 
 
-The pymetasploit3 not contains Evasion module type even though the RPC API support. To fix that I need to path the pymetasploit3 in my local machine! I think I'll create a pull request to the pymetasploit3 repo later
+### Backend
 
-Currently, due to network environment problems blocking all connections from pip or other things, I will temporarily commit the .venv folder as well.
+1. Install nmap
+2. Install metasploit
+3. `cd BE`
+4. `./start.sh`
+
+### Frontend
+
+1. Install npm
+2. `npm run dev`
+
+The application will run on port 3000
