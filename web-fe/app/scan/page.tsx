@@ -61,7 +61,7 @@ const StartScan: React.FC = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">IP Range</label>
+              <label className="block text-sm font-medium text-gray-700">IP</label>
               <Input
                 value={ipRange}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setIpRange(e.target.value)}
