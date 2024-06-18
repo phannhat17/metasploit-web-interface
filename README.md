@@ -13,6 +13,7 @@ Web interface for using Metasploit Framework
 ### Frontend
 
 1. Install npm
-2. `npm run dev`
+2. `cd web-fe/`
+3. `npm run dev`
 
 The application will run on port 3000
